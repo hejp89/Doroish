@@ -8,6 +8,21 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ListView x:Name="DoroListView" Margin="0,0,0,48" ItemsSource="{x:Bind SList}" CanReorderItems="True" CanDrag="True" AllowDrop="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Title}" Margin="5,5,10,5" FontWeight="Bold" FontSize="20"/>
+                        <TextBlock Text="{Binding DurationString}" Margin="10,1"/>
+                        <TextBlock Text="{Binding BreakDurationString}" Margin="10,1,10,5"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button x:Name="Start" Content="Start" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="33" Margin="0,0,10,10" Width="93" Click="StartButton_Click"/>
+        <Button x:Name="RemoveButton" Content="-" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="46" Margin="10,0,0,10" Click="RemoveButton_Click"/>
+        <Button x:Name="AddButton" Content="+" HorizontalAlignment="Left" Margin="66,0,0,10" VerticalAlignment="Bottom" Width="46" RenderTransformOrigin="-0.703,0.625" Click="AddButton_Click"/>
 
     </Grid>
 </Page>

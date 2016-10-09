@@ -1,30 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using System.Collections.Generic;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using System.Collections.ObjectModel;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+namespace Doroish {
 
-namespace Doroish
-{
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainPage : Page
-    {
-        public MainPage()
-        {
-            this.InitializeComponent();
+    public sealed partial class MainPage : Page {
+        public ObservableCollection<Doro> DoroList;
+
+        public MainPage() {
+            InitializeComponent();
+            DoroList = new ObservableCollection<Doro>();
+        }
+
+        private async void AddButton_Click(object sender, RoutedEventArgs e) {
+            
+            var dialog = new DoroDialog();
+            var result = await dialog.ShowAsync();
+
+            if(result == ContentDialogResult.Primary) {
+                var doro = dialog.Doro;
+                DoroList.Add(doro);
+                
+            }
+        }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e) {
+            if(DoroListView.SelectedIndex == -1)
+                return;
+            DoroList.RemoveAt(DoroListView.SelectedIndex);            
+        }
+
+        private void StartButton_Click(object sender, RoutedEventArgs e) {
+            foreach(Doro doro in DoroList) {
+                System.Diagnostics.Debug.WriteLine(doro.Title);
+            }
         }
     }
 }
