@@ -7,8 +7,103 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.BottomAppBar>
+        <CommandBar Height="48">
+            <CommandBar.Resources>
+                <ControlTemplate x:Key="CommandBarControlTemplate1" TargetType="CommandBar">
+                    <Grid x:Name="LayoutRoot" Background="{TemplateBinding Background}">
+
+                        <Grid x:Name="ContentRoot"
+        					VerticalAlignment="Top"
+        					Margin="{TemplateBinding Padding}"
+        					Height="{TemplateBinding Height}"
+        					Background="{TemplateBinding Background}"
+        					Opacity="{TemplateBinding Opacity}">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RenderTransform>
+                                <TranslateTransform x:Name="ContentTransform"/>
+                            </Grid.RenderTransform>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Use a ContentControl rather than a ContentPresenter so that IsEnabled can be set to false
+                                        in the Minimal/HiddenClosed states to remove it from being a tab-stop candidate. -->
+                                <ContentControl
+        							x:Name="ContentControl"
+        							Content="{TemplateBinding Content}"
+        							ContentTemplate="{TemplateBinding ContentTemplate}"
+        							ContentTransitions="{TemplateBinding ContentTransitions}"
+        							Foreground="{TemplateBinding Foreground}"
+        							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+        							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+        							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+        							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+        							IsTabStop="False"/>
+
+                                <ItemsControl
+        							x:Name="PrimaryItemsControl"
+        							HorizontalAlignment="Right"
+        							MinHeight="{ThemeResource AppBarThemeMinHeight}"
+        							IsTabStop="False"
+        							Grid.Column="1">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </Grid>
+
+                            <!--<Button
+        						x:Name="MoreButton"
+        						Foreground="{TemplateBinding Foreground}"
+        						Style="{StaticResource EllipsisButton}"
+        						Padding="16,23,16,0"
+        						MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+        						VerticalAlignment="Top"
+        						Grid.Column="1">
+                                <FontIcon
+        							x:Name="EllipsisIcon"
+        							VerticalAlignment="Center"
+        							FontFamily="{ThemeResource SymbolThemeFontFamily}"
+        							FontSize="16"
+        							Glyph="&#xE10C;"
+        							Height="{ThemeResource AppBarExpandButtonCircleDiameter}"/>
+                            </Button>-->
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </CommandBar.Resources>
+            <CommandBar.Template>
+                <StaticResource ResourceKey="CommandBarControlTemplate1"/>
+            </CommandBar.Template>
+            <CommandBar.Content>
+                <Grid/>
+            </CommandBar.Content>
+            <AppBarButton Icon="Delete" Label="Remove Doro" Click="RemoveButton_Click"/>
+            <AppBarButton Icon="Add" Label="Add Doro" Click="AddButton_Click"/>
+            <AppBarSeparator />
+            <AppBarButton Icon="Play" Label="Start Doro Session" Click="StartButton_Click"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView x:Name="DoroListView" Margin="0,0,0,48" ItemsSource="{x:Bind SList}" CanReorderItems="True" CanDrag="True" AllowDrop="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="59*"/>
+            <ColumnDefinition Width="61*"/>
+        </Grid.ColumnDefinitions>
+
+        <ListView x:Name="DoroListView" Margin="0,0,0,48" ItemsSource="{x:Bind DoroList}" CanReorderItems="True" CanDrag="True" AllowDrop="True" Grid.ColumnSpan="2">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -19,10 +114,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
-        <Button x:Name="Start" Content="Start" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="33" Margin="0,0,10,10" Width="93" Click="StartButton_Click"/>
-        <Button x:Name="RemoveButton" Content="-" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="46" Margin="10,0,0,10" Click="RemoveButton_Click"/>
-        <Button x:Name="AddButton" Content="+" HorizontalAlignment="Left" Margin="66,0,0,10" VerticalAlignment="Bottom" Width="46" RenderTransformOrigin="-0.703,0.625" Click="AddButton_Click"/>
-
     </Grid>
 </Page>

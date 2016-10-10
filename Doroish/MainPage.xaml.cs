@@ -12,6 +12,9 @@ namespace Doroish {
         public MainPage() {
             InitializeComponent();
             DoroList = new ObservableCollection<Doro>();
+            //System.Diagnostics.Debug.WriteLine(MainCommandBar.FindName("MoreButton").ToString());
+
+            //((AppBarButton) ).Visibility = Visibility.Collapsed;
         }
 
         private async void AddButton_Click(object sender, RoutedEventArgs e) {
