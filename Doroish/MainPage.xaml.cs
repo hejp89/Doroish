@@ -47,7 +47,7 @@ namespace Doroish {
 
            
 
-            string title = "Andrew sent you a picture";
+            string title = "Doro 1 has finished";
 
             // Construct the visuals of the toast
             ToastVisual visual = new ToastVisual() {
@@ -63,15 +63,15 @@ namespace Doroish {
             // Construct the actions for the toast (inputs and buttons)
             ToastActionsCustom actions = new ToastActionsCustom() {
                 Inputs = {
-                    new ToastTextBox("tbReply") { PlaceholderContent = "Type a response" }
+                    new ToastTextBox("tbNote") { PlaceholderContent = "Add a note" }
                 },
                 Buttons = {
-                    new ToastButton("Reply", new QueryString() {
+                    new ToastButton("Add Note", new QueryString() {
                         { "action", "reply" },
                         { "conversationId", conversationId.ToString() }
                     }.ToString()) {
                         ActivationType = ToastActivationType.Foreground,
-                        TextBoxId = "tbReply"
+                        TextBoxId = "tbNote"
                     }
                 }
             };

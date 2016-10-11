@@ -38,7 +38,6 @@ namespace Doroish
             
         }
 
-
         protected override void OnActivated(IActivatedEventArgs e) {
             if(e is ToastNotificationActivatedEventArgs) {
                 var ev = e as ToastNotificationActivatedEventArgs;
@@ -46,8 +45,6 @@ namespace Doroish
                 System.Diagnostics.Debug.WriteLine("Activated");
             }
         }
-
-
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
