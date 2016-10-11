@@ -7,6 +7,11 @@ using System.Collections.ObjectModel;
 using Windows.UI.Notifications;
 using Microsoft.Toolkit.Uwp.Notifications; // Notifications library
 using Microsoft.QueryStringDotNET;
+using Windows.ApplicationModel.Background;
+using Windows.UI.Popups;
+using Windows.ApplicationModel.Activation;
+using System.Diagnostics;
+using System.IO;
 
 namespace Doroish {
 
@@ -35,10 +40,12 @@ namespace Doroish {
             DoroList.RemoveAt(DoroListView.SelectedIndex);
         }
 
-        private void StartButton_Click(object sender, RoutedEventArgs e) {
+        private async void StartButton_Click(object sender, RoutedEventArgs e) {
             foreach(Doro doro in DoroList) {
                 System.Diagnostics.Debug.WriteLine(doro.Title);
             }
+
+           
 
             string title = "Andrew sent you a picture";
 
@@ -63,9 +70,9 @@ namespace Doroish {
                         { "action", "reply" },
                         { "conversationId", conversationId.ToString() }
                     }.ToString()) {
-                        ActivationType = ToastActivationType.Background,
+                        ActivationType = ToastActivationType.Foreground,
                         TextBoxId = "tbReply"
-                    },
+                    }
                 }
             };
 
@@ -81,14 +88,18 @@ namespace Doroish {
 
             // And create the toast notification
             var toast = new ToastNotification(toastContent.GetXml());
-
+            
             toast.ExpirationTime = DateTime.Now.AddDays(2);
 
             toast.Tag = "1";
             toast.Group = "doro";
+            
 
             ToastNotificationManager.CreateToastNotifier().Show(toast);
 
+            
+
         }
+        
     }
 }

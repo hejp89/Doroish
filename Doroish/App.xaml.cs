@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Background;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -33,18 +34,29 @@ namespace Doroish
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            
         }
+
+
+        protected override void OnActivated(IActivatedEventArgs e) {
+            if(e is ToastNotificationActivatedEventArgs) {
+                var ev = e as ToastNotificationActivatedEventArgs;
+                System.Diagnostics.Debug.WriteLine(ev.UserInput["tbReply"]);
+                System.Diagnostics.Debug.WriteLine("Activated");
+            }
+        }
+
+
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
-        {
+        protected override async void OnLaunched(LaunchActivatedEventArgs e) {
 #if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
+            if(System.Diagnostics.Debugger.IsAttached) {
                 this.DebugSettings.EnableFrameRateCounter = false;
             }
 #endif
@@ -52,15 +64,13 @@ namespace Doroish
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (rootFrame == null)
-            {
+            if(rootFrame == null) {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
+                if(e.PreviousExecutionState == ApplicationExecutionState.Terminated) {
                     //TODO: Load state from previously suspended application
                 }
 
@@ -68,18 +78,28 @@ namespace Doroish
                 Window.Current.Content = rootFrame;
             }
 
-            if (e.PrelaunchActivated == false)
-            {
-                if (rootFrame.Content == null)
-                {
+            if(e.PrelaunchActivated == false) {
+                if(rootFrame.Content == null) {
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
                     rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
+
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+
+            BackgroundAccessStatus status = await BackgroundExecutionManager.RequestAccessAsync();
+
+            BackgroundTaskBuilder builder = new BackgroundTaskBuilder() {
+                Name = "MyToastTask",
+                TaskEntryPoint = "RuntimeComponent1.ToastNotificationBackgroundTask"
+            };
+
+            builder.SetTrigger(new ToastNotificationActionTrigger());
+
+            BackgroundTaskRegistration registration = builder.Register();
         }
 
         /// <summary>
