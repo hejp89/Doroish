@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doroish", "Doroish\Doroish.csproj", "{597BBBAA-77A8-4EB6-9419-24C1F4B4DB6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuntimeComponent1", "RuntimeComponent1\RuntimeComponent1.csproj", "{40B0CB06-8EA2-4EBB-AFC1-F739C7F96523}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundNotificationComponent", "RuntimeComponent1\BackgroundNotificationComponent.csproj", "{40B0CB06-8EA2-4EBB-AFC1-F739C7F96523}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
