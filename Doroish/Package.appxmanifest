@@ -24,18 +24,29 @@
             <uap:ShowOn Tile="square310x310Logo" />
           </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\StoreLogo.png" />
+        <uap:SplashScreen Image="Assets\StoreLogo.png" BackgroundColor="#ffffff" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="RuntimeComponent1.ToastNotificationBackgroundTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="BackgroundNotificationComponent.ToastNotificationBackgroundTask">
           <BackgroundTasks>
             <Task Type="systemEvent" />
+            <uap:Task Type="mediaProcessing" />
           </BackgroundTasks>
         </Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="doroish">
+            <uap:DisplayName>Doroish</uap:DisplayName>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.json</uap:FileType>
+              <uap:FileType>.txt</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <uap:Capability Name="documentsLibrary" />
   </Capabilities>
 </Package>

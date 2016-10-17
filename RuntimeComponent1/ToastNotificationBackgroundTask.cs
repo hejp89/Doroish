@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.UI.Notifications;
 
-namespace RuntimeComponent1 {
+namespace BackgroundNotificationComponent {
     public sealed class ToastNotificationBackgroundTask : IBackgroundTask {
         public void Run(IBackgroundTaskInstance taskInstance) {
             //Inside here developer can retrieve and consume the pre-defined 

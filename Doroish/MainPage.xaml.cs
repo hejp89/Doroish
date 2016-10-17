@@ -7,6 +7,9 @@ using Windows.UI.Notifications;
 using Microsoft.Toolkit.Uwp.Notifications; // Notifications library
 using Microsoft.QueryStringDotNET;
 using System.Linq;
+using System.Diagnostics;
+using Windows.Storage;
+using System.IO;
 
 namespace Doroish {
 
@@ -14,14 +17,19 @@ namespace Doroish {
         public ObservableCollection<Doro> DoroList;
         private DoroTimer DoroTimer;
         private DispatcherTimer UITimer = new DispatcherTimer();
-        
+        private Random Rand = new Random();
 
-        public MainPage() {
+        public  MainPage() {
             InitializeComponent();
             DoroList = new ObservableCollection<Doro>();
+           
+            Debug.WriteLine("");
         }
 
         private async void AddButton_Click(object sender, RoutedEventArgs e) {
+
+            var options = new Windows.System.LauncherOptions();
+            
 
             var dialog = new DoroDialog();
             var result = await dialog.ShowAsync();
@@ -30,6 +38,9 @@ namespace Doroish {
                 var doro = dialog.Doro;
                 DoroList.Add(doro);
             }
+
+            Debug.WriteLine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path);
+            //StorageFolder dataFolder = await ;
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e) {
@@ -41,6 +52,7 @@ namespace Doroish {
         private void DoroTimer_Tick(DoroTimerEvent e) {
             if(e.EventDescription == DoroTimerEvent.FINISHED_DORO) {
                 ShowNotification(e.Doro);
+                Debug.WriteLine("Finished Doro");
             }
 
             if(e.EventDescription == DoroTimerEvent.FINISHED) {
@@ -118,7 +130,7 @@ namespace Doroish {
                 }
             };
 
-            int conversationId = 384928;
+            int conversationId = Rand.Next();
 
             // Construct the actions for the toast (inputs and buttons)
             ToastActionsCustom actions = new ToastActionsCustom() {
@@ -128,7 +140,8 @@ namespace Doroish {
                 Buttons = {
                     new ToastButton("Add Note", new QueryString() {
                         { "action", "reply" },
-                        { "conversationId", conversationId.ToString() }
+                        { "conversationId", conversationId.ToString() },
+                        { "dorotitle", doro.Title }
                     }.ToString()) {
                         ActivationType = ToastActivationType.Foreground,
                         TextBoxId = "tbNote"
@@ -152,7 +165,8 @@ namespace Doroish {
             toast.ExpirationTime = DateTime.Now.AddDays(2);
 
             toast.Tag = "1";
-            toast.Group = "doro";
+            toast.Group = "doro" + doro.Title;
+            toast.SuppressPopup = false;
 
             ToastNotificationManager.CreateToastNotifier().Show(toast);
         }
