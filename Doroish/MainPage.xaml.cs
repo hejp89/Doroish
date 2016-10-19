@@ -22,14 +22,12 @@ namespace Doroish {
         public  MainPage() {
             InitializeComponent();
             DoroList = new ObservableCollection<Doro>();
-           
-            Debug.WriteLine("");
         }
 
         private async void AddButton_Click(object sender, RoutedEventArgs e) {
 
             var options = new Windows.System.LauncherOptions();
-            
+
 
             var dialog = new DoroDialog();
             var result = await dialog.ShowAsync();
@@ -39,8 +37,6 @@ namespace Doroish {
                 DoroList.Add(doro);
             }
 
-            Debug.WriteLine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path);
-            //StorageFolder dataFolder = await ;
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e) {

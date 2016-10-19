@@ -8,6 +8,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.QueryStringDotNET;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
+using System.Net.Http;
+using Windows.UI.Popups;
 
 namespace Doroish {
     /// <summary>
@@ -28,6 +31,7 @@ namespace Doroish {
 
         }
 
+        /* This callback is trigged  */
         protected override async void OnActivated(IActivatedEventArgs e) {
             
             StorageFolder docs = await KnownFolders.DocumentsLibrary.CreateFolderAsync("Doroish", CreationCollisionOption.OpenIfExists);
@@ -40,6 +44,42 @@ namespace Doroish {
                 List<string> lines = new List<string>() { DateTime.Now.ToString("yyyy-MM-dd HH:mm") + " - " + args["dorotitle"] + ":",
                                                           "",  ev.UserInput["tbNote"].ToString(), "", ""};
                 await FileIO.AppendLinesAsync(output, lines);
+
+                var configFile = await ApplicationData.Current.LocalFolder.GetFileAsync("config.json");
+                if(configFile != null) {
+                    try {
+                        var jsonConfigString = await FileIO.ReadTextAsync(configFile);
+                        JObject jsonConfig = JObject.Parse(jsonConfigString);
+
+                        var requests = jsonConfig["requests"] as JArray;
+                        foreach(var request in requests) {
+                            if(request["method"].ToString() == "POST") {
+                                using(var client = new HttpClient()) {
+
+                                    var content = new StringContent(string.Format(request["body"].ToString(), DateTime.Now.ToString("yyyy-MM-dd HH:mm"), args["dorotitle"], ev.UserInput["tbNote"].ToString()));
+
+                                    var response = await client.PostAsync(request["body"].ToString(), content);
+
+                                    var responseString = await response.Content.ReadAsStringAsync();
+                                }
+                            }
+
+                            if(request["method"].ToString() == "GET") {
+                                using(var client = new HttpClient()) {
+
+                                    var url = string.Format(request["url"].ToString(), DateTime.Now.ToString("yyyy-MM-dd HH:mm"), args["dorotitle"], ev.UserInput["tbNote"].ToString());
+
+                                    var response = await client.GetAsync(url);
+
+                                    var responseString = await response.Content.ReadAsStringAsync();
+                                }
+                            }
+                        }
+                    } catch {
+                        var dialog = new MessageDialog("There was an error in the config.json file.");
+                        await dialog.ShowAsync();
+                    }
+                }
             }
 
             
