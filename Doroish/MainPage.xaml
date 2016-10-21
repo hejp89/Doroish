@@ -8,13 +8,13 @@
     mc:Ignorable="d">
 
 
-
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="59*"/>
             <ColumnDefinition Width="61*"/>
         </Grid.ColumnDefinitions>
+
+
 
         <ListView x:Name="DoroListView" Margin="0,0,0,48" ItemsSource="{x:Bind DoroList}" CanReorderItems="True" CanDrag="True" AllowDrop="True" Grid.ColumnSpan="2">
             <ListView.ItemTemplate>
@@ -27,6 +27,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <TextBlock x:Name="EmptyStateTextBlock" Margin="0,48,0,0" TextWrapping="Wrap" Text="Use the &quot;+&quot; button to add a task" VerticalAlignment="Top" Grid.ColumnSpan="2" TextAlignment="Center"/>
     </Grid>
 
     <Page.BottomAppBar>
@@ -84,23 +86,6 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                             </Grid>
-
-                            <!--<Button
-        						x:Name="MoreButton"
-        						Foreground="{TemplateBinding Foreground}"
-        						Style="{StaticResource EllipsisButton}"
-        						Padding="16,23,16,0"
-        						MinHeight="{ThemeResource AppBarThemeCompactHeight}"
-        						VerticalAlignment="Top"
-        						Grid.Column="1">
-                                <FontIcon
-        							x:Name="EllipsisIcon"
-        							VerticalAlignment="Center"
-        							FontFamily="{ThemeResource SymbolThemeFontFamily}"
-        							FontSize="16"
-        							Glyph="&#xE10C;"
-        							Height="{ThemeResource AppBarExpandButtonCircleDiameter}"/>
-                            </Button>-->
                         </Grid>
                     </Grid>
                 </ControlTemplate>

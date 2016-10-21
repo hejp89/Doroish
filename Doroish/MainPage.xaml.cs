@@ -4,12 +4,10 @@ using Windows.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 
 using Windows.UI.Notifications;
-using Microsoft.Toolkit.Uwp.Notifications; // Notifications library
+using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.QueryStringDotNET;
 using System.Linq;
 using System.Diagnostics;
-using Windows.Storage;
-using System.IO;
 
 namespace Doroish {
 
@@ -24,6 +22,7 @@ namespace Doroish {
             DoroList = new ObservableCollection<Doro>();
         }
 
+
         private async void AddButton_Click(object sender, RoutedEventArgs e) {
 
             var options = new Windows.System.LauncherOptions();
@@ -37,13 +36,23 @@ namespace Doroish {
                 DoroList.Add(doro);
             }
 
+            if(DoroList.Count > 0) {
+                EmptyStateTextBlock.Visibility = Visibility.Collapsed;
+            }
+
         }
+
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e) {
             if(DoroListView.SelectedIndex == -1)
                 return;
             DoroList.RemoveAt(DoroListView.SelectedIndex);
+
+            if(DoroList.Count == 0) {
+                EmptyStateTextBlock.Visibility = Visibility.Visible;
+            }
         }
+
 
         private void DoroTimer_Tick(DoroTimerEvent e) {
             if(e.EventDescription == DoroTimerEvent.FINISHED_DORO) {
@@ -62,6 +71,7 @@ namespace Doroish {
             }
         }
 
+
         private void UITimer_Tick(object sender, object e) {
             var CurrentDoro = DoroTimer.CurrentDoro;
 
@@ -75,7 +85,6 @@ namespace Doroish {
                 StatusBar.Text = string.Format("{0}: {1:00}:{2:00} / {3:00}:{4:00}", CurrentDoro.Title, timeElapsed.Minutes, timeElapsed.Seconds, CurrentDoro.Duration.Minutes, CurrentDoro.Duration.Seconds);
             }
         }
-
 
 
         private void StartButton_Click(object sender, RoutedEventArgs e) {
@@ -117,7 +126,7 @@ namespace Doroish {
         private void ShowNotification(Doro doro) {
             string title = doro.Title + " has finished";
 
-            // Construct the visuals of the toast
+            // construct the visuals of the toast
             ToastVisual visual = new ToastVisual() {
                 BindingGeneric = new ToastBindingGeneric() {
                     Children = {
@@ -128,7 +137,7 @@ namespace Doroish {
 
             int conversationId = Rand.Next();
 
-            // Construct the actions for the toast (inputs and buttons)
+            // construct the actions for the toast (inputs and buttons)
             ToastActionsCustom actions = new ToastActionsCustom() {
                 Inputs = {
                     new ToastTextBox("tbNote") { PlaceholderContent = "Add a note" }
@@ -145,7 +154,7 @@ namespace Doroish {
                 }
             };
 
-            // Now we can construct the final toast content
+            // construct the final toast content
             ToastContent toastContent = new ToastContent() {
                 Visual = visual,
                 Actions = actions,
