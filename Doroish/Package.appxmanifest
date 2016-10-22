@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="f96455ea-0567-42a8-8382-b77e63cb8e7c" Publisher="CN=howard" Version="1.0.0.0" />
+  <Identity Name="f96455ea-0567-42a8-8382-b77e63cb8e7c" Publisher="CN=howard" Version="1.0.3.0" />
   <mp:PhoneIdentity PhoneProductId="f96455ea-0567-42a8-8382-b77e63cb8e7c" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Doroish</DisplayName>
     <PublisherDisplayName>howard</PublisherDisplayName>
-    <Logo>Assets\StoreLogo-75x75.png</Logo>
+    <Logo>Assets\DoroLogoSquare-50x50.png</Logo>
   </Properties>
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
@@ -15,16 +15,16 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Doroish.App">
-      <uap:VisualElements DisplayName="Doroish" Square150x150Logo="Assets\StoreLogo-150x150.png" Square44x44Logo="Assets\StoreLogo-44x44.png" Description="Doroish" BackgroundColor="transparent">
-        <uap:LockScreen Notification="badge" BadgeLogo="Assets\StoreLogo-36x36.png" />
-        <uap:DefaultTile Square310x310Logo="Assets\StoreLogo-310x310.png" ShortName="Doro" Wide310x150Logo="Assets\StoreLogo-310x150.png" Square71x71Logo="Assets\StoreLogo-71x71.png">
+      <uap:VisualElements DisplayName="Doroish" Square150x150Logo="Assets\DoroLogoSquare-150x150.png" Square44x44Logo="Assets\DoroLogoSquare-44x44.png" Description="Doroish" BackgroundColor="transparent">
+        <uap:LockScreen Notification="badge" BadgeLogo="Assets\DoroLogoSquare-24x24.png" />
+        <uap:DefaultTile Square310x310Logo="Assets\DoroLogoSquare-310x310.png" ShortName="Doro" Square71x71Logo="Assets\DoroLogoSquare-71x71.png" Wide310x150Logo="Assets\DoroLogoWide-310x150.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />
             <uap:ShowOn Tile="wide310x150Logo" />
             <uap:ShowOn Tile="square310x310Logo" />
           </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\StoreLogo-930x450.png" BackgroundColor="#ffffff" />
+        <uap:SplashScreen Image="Assets\DoroLogoWide-620x300.png" BackgroundColor="#ffffff" />
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.fileTypeAssociation">

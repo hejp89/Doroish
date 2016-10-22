@@ -107,6 +107,7 @@ namespace Doroish {
 
                 AddButton.IsEnabled = false;
                 RemoveButton.IsEnabled = false;
+                SkipButton.IsEnabled = true;
                 StartButton.Icon = new SymbolIcon(Symbol.Stop);
 
                 UITimer_Tick(null, null);
@@ -118,9 +119,14 @@ namespace Doroish {
 
                 AddButton.IsEnabled = true;
                 RemoveButton.IsEnabled = true;
+                SkipButton.IsEnabled = false;
                 StartButton.Icon = new SymbolIcon(Symbol.Play);
             }
 
+        }
+
+        private void SkipButton_Click(object sender, RoutedEventArgs e) {
+            DoroTimer.Skip();
         }
 
         private void ShowNotification(Doro doro) {

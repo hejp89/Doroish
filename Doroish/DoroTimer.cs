@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 namespace Doroish {
@@ -50,22 +47,25 @@ namespace Doroish {
             IsRunning = false;
         }
 
+        public void Skip() {
+            if(IsRunning) {
+                if(IsBreak) {
+                    CompleteBreak();
+                } else {
+                    CompleteDoro();
+                }
+            }
+        }
+
         private void BreakTimer_Tick(object sender, object e) {
-            BreakTimer.Stop();
-
-            CurrentPosition++;
-
-            Timer.Interval = Doros[CurrentPosition].Duration;
-            Timer.Start();
-
-            IsBreak = false;
-
-            DoroStartTime = DateTime.Now;
-
-            Tick(new DoroTimerEvent(DoroTimerEvent.STARTED_DORO, Doros[CurrentPosition]));
+            CompleteBreak();
         }
 
         private void Timer_Tick(object sender, object e) {
+            CompleteDoro();
+        }
+
+        private void CompleteDoro() {
             Timer.Stop();
 
             Tick(new DoroTimerEvent(DoroTimerEvent.FINISHED_DORO, Doros[CurrentPosition]));
@@ -84,7 +84,22 @@ namespace Doroish {
             BreakTimer.Start();
 
             IsBreak = true;
-        }    
+        }
+
+        private void CompleteBreak() {
+            BreakTimer.Stop();
+
+            CurrentPosition++;
+
+            Timer.Interval = Doros[CurrentPosition].Duration;
+            Timer.Start();
+
+            IsBreak = false;
+
+            DoroStartTime = DateTime.Now;
+
+            Tick(new DoroTimerEvent(DoroTimerEvent.STARTED_DORO, Doros[CurrentPosition]));
+        }
     }
 
     public class DoroTimerEvent {

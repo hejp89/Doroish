@@ -31,13 +31,14 @@ namespace Doroish {
 
         }
 
-        /* This callback is trigged  */
+        /* Write the note to a files dated yyyy-MM-dd.
+         * Perform any http request secified in config.json. */
         protected override async void OnActivated(IActivatedEventArgs e) {
-            
-            StorageFolder docs = await KnownFolders.DocumentsLibrary.CreateFolderAsync("Doroish", CreationCollisionOption.OpenIfExists);
-            StorageFile output = await docs.CreateFileAsync(DateTime.Now.ToString("yyyy-MM-dd") + ".txt", CreationCollisionOption.OpenIfExists);
 
             if(e is ToastNotificationActivatedEventArgs) {
+                StorageFolder docs = await KnownFolders.DocumentsLibrary.CreateFolderAsync("Doroish", CreationCollisionOption.OpenIfExists);
+                StorageFile output = await docs.CreateFileAsync(DateTime.Now.ToString("yyyy-MM-dd") + ".txt", CreationCollisionOption.OpenIfExists);
+
                 var ev = e as ToastNotificationActivatedEventArgs;
                 var args = QueryString.Parse(ev.Argument);
 

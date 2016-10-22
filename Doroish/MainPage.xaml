@@ -103,6 +103,7 @@
             <AppBarButton x:Name="AddButton" Icon="Add" Label="Add Doro" Click="AddButton_Click"/>
             <AppBarSeparator />
             <AppBarButton x:Name="StartButton" Icon="Play" Label="Start Doro Session" Click="StartButton_Click"/>
+            <AppBarButton x:Name="SkipButton" Icon="Next" Label="Skip" Click="SkipButton_Click" IsEnabled="False"/>
         </CommandBar>
     </Page.BottomAppBar>
 
