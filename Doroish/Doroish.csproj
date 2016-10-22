@@ -118,6 +118,14 @@
     <None Include="Doroish_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\StoreLogo-150x150.png" />
+    <Content Include="Assets\StoreLogo-310x150.png" />
+    <Content Include="Assets\StoreLogo-310x310.png" />
+    <Content Include="Assets\StoreLogo-36x36.png" />
+    <Content Include="Assets\StoreLogo-44x44.png" />
+    <Content Include="Assets\StoreLogo-71x71.scale-100.png" />
+    <Content Include="Assets\StoreLogo-75x75.png" />
+    <Content Include="Assets\StoreLogo-930x450.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-125.png" />
     <Content Include="Assets\StoreLogo.scale-150.png" />

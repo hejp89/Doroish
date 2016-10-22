@@ -131,6 +131,10 @@ namespace Doroish {
                 BindingGeneric = new ToastBindingGeneric() {
                     Children = {
                         new AdaptiveText() { Text = title }
+                    },
+                    AppLogoOverride = new ToastGenericAppLogo() {
+                        Source = "Assets/StoreLogo-44x44.png",
+                        HintCrop = ToastGenericAppLogoCrop.Circle
                     }
                 }
             };
@@ -170,7 +174,7 @@ namespace Doroish {
             toast.ExpirationTime = DateTime.Now.AddDays(2);
 
             toast.Tag = "1";
-            toast.Group = "doro" + doro.Title;
+            toast.Group = "Doro";
             toast.SuppressPopup = false;
 
             ToastNotificationManager.CreateToastNotifier().Show(toast);

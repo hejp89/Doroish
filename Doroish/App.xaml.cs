@@ -41,6 +41,10 @@ namespace Doroish {
                 var ev = e as ToastNotificationActivatedEventArgs;
                 var args = QueryString.Parse(ev.Argument);
 
+                if(!ev.UserInput.ContainsKey("tbNote")) {
+                    return;
+                }
+
                 List<string> lines = new List<string>() { DateTime.Now.ToString("yyyy-MM-dd HH:mm") + " - " + args["dorotitle"] + ":",
                                                           "",  ev.UserInput["tbNote"].ToString(), "", ""};
                 await FileIO.AppendLinesAsync(output, lines);
@@ -129,7 +133,7 @@ namespace Doroish {
             BackgroundAccessStatus status = await BackgroundExecutionManager.RequestAccessAsync();
 
             BackgroundTaskBuilder builder = new BackgroundTaskBuilder() {
-                Name = "MyToastTask",
+                Name = "DoroToastTask",
                 TaskEntryPoint = "BackgroundNotificationComponent.ToastNotificationBackgroundTask"
             };
 

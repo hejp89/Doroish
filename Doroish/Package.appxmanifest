@@ -5,7 +5,7 @@
   <Properties>
     <DisplayName>Doroish</DisplayName>
     <PublisherDisplayName>howard</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <Logo>Assets\StoreLogo-75x75.png</Logo>
   </Properties>
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
@@ -15,24 +15,18 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Doroish.App">
-      <uap:VisualElements DisplayName="Doroish" Square150x150Logo="Assets\StoreLogo.png" Square44x44Logo="Assets\StoreLogo.png" Description="Doroish" BackgroundColor="transparent">
-        <uap:LockScreen Notification="badge" BadgeLogo="Assets\StoreLogo.png" />
-        <uap:DefaultTile Square310x310Logo="Assets\StoreLogo.png" ShortName="Doro" Wide310x150Logo="Assets\StoreLogo.png" Square71x71Logo="Assets\StoreLogo.png">
+      <uap:VisualElements DisplayName="Doroish" Square150x150Logo="Assets\StoreLogo-150x150.png" Square44x44Logo="Assets\StoreLogo-44x44.png" Description="Doroish" BackgroundColor="transparent">
+        <uap:LockScreen Notification="badge" BadgeLogo="Assets\StoreLogo-36x36.png" />
+        <uap:DefaultTile Square310x310Logo="Assets\StoreLogo-310x310.png" ShortName="Doro" Wide310x150Logo="Assets\StoreLogo-310x150.png" Square71x71Logo="Assets\StoreLogo-71x71.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />
             <uap:ShowOn Tile="wide310x150Logo" />
             <uap:ShowOn Tile="square310x310Logo" />
           </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\StoreLogo.png" BackgroundColor="#ffffff" />
+        <uap:SplashScreen Image="Assets\StoreLogo-930x450.png" BackgroundColor="#ffffff" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="BackgroundNotificationComponent.ToastNotificationBackgroundTask">
-          <BackgroundTasks>
-            <Task Type="systemEvent" />
-            <uap:Task Type="mediaProcessing" />
-          </BackgroundTasks>
-        </Extension>
         <uap:Extension Category="windows.fileTypeAssociation">
           <uap:FileTypeAssociation Name="doroish">
             <uap:DisplayName>Doroish</uap:DisplayName>
@@ -42,6 +36,12 @@
             </uap:SupportedFileTypes>
           </uap:FileTypeAssociation>
         </uap:Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="BackgroundNotificationComponent.ToastNotificationBackgroundTask">
+          <BackgroundTasks>
+            <Task Type="systemEvent" />
+            <uap:Task Type="mediaProcessing" />
+          </BackgroundTasks>
+        </Extension>
       </Extensions>
     </Application>
   </Applications>
