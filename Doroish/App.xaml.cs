@@ -36,53 +36,68 @@ namespace Doroish {
         protected override async void OnActivated(IActivatedEventArgs e) {
 
             if(e is ToastNotificationActivatedEventArgs) {
-                StorageFolder docs = await KnownFolders.DocumentsLibrary.CreateFolderAsync("Doroish", CreationCollisionOption.OpenIfExists);
-                StorageFile output = await docs.CreateFileAsync(DateTime.Now.ToString("yyyy-MM-dd") + ".txt", CreationCollisionOption.OpenIfExists);
-
-                var ev = e as ToastNotificationActivatedEventArgs;
-                var args = QueryString.Parse(ev.Argument);
-
-                if(!ev.UserInput.ContainsKey("tbNote")) {
-                    return;
-                }
-
-                List<string> lines = new List<string>() { DateTime.Now.ToString("yyyy-MM-dd HH:mm") + " - " + args["dorotitle"] + ":",
-                                                          "",  ev.UserInput["tbNote"].ToString(), "", ""};
-                await FileIO.AppendLinesAsync(output, lines);
-
-                var configFile = await ApplicationData.Current.LocalFolder.GetFileAsync("config.json");
+                var configFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists);
                 if(configFile != null) {
                     try {
                         var jsonConfigString = await FileIO.ReadTextAsync(configFile);
+                        if(string.IsNullOrWhiteSpace(jsonConfigString)) {
+                            jsonConfigString = "{}";
+                        }
+
                         JObject jsonConfig = JObject.Parse(jsonConfigString);
 
-                        var requests = jsonConfig["requests"] as JArray;
-                        foreach(var request in requests) {
-                            if(request["method"].ToString() == "POST") {
-                                using(var client = new HttpClient()) {
-
-                                    var content = new StringContent(string.Format(request["body"].ToString(), DateTime.Now.ToString("yyyy-MM-dd HH:mm"), args["dorotitle"], ev.UserInput["tbNote"].ToString()));
-
-                                    var response = await client.PostAsync(request["body"].ToString(), content);
-
-                                    var responseString = await response.Content.ReadAsStringAsync();
-                                }
+                        StorageFolder docs;
+                        if(jsonConfig["notes_folder"] == null) {
+                            docs = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Doroish", CreationCollisionOption.OpenIfExists);
+                        } else {
+                            docs = await StorageFolder.GetFolderFromPathAsync(jsonConfig["notes_folder"].ToString());
+                            if(docs == null) {
+                                docs = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Doroish", CreationCollisionOption.OpenIfExists);
                             }
+                        }
 
-                            if(request["method"].ToString() == "GET") {
-                                using(var client = new HttpClient()) {
+                        StorageFile output = await docs.CreateFileAsync(DateTime.Now.ToString("yyyy-MM-dd") + ".txt", CreationCollisionOption.OpenIfExists);
 
-                                    var url = string.Format(request["url"].ToString(), DateTime.Now.ToString("yyyy-MM-dd HH:mm"), args["dorotitle"], ev.UserInput["tbNote"].ToString());
+                        var ev = e as ToastNotificationActivatedEventArgs;
+                        var args = QueryString.Parse(ev.Argument);
 
-                                    var response = await client.GetAsync(url);
+                        if(!ev.UserInput.ContainsKey("tbNote")) {
+                            return;
+                        }
 
-                                    var responseString = await response.Content.ReadAsStringAsync();
+                        List<string> lines = new List<string>() { DateTime.Now.ToString("yyyy-MM-dd HH:mm") + " - " + args["dorotitle"] + ":",
+                                                          "",  ev.UserInput["tbNote"].ToString(), "", ""};
+                        await FileIO.AppendLinesAsync(output, lines);
+
+                        if(jsonConfig["requests"] != null) {
+                            var requests = jsonConfig["requests"] as JArray;
+                            foreach(var request in requests) {
+                                if(request["method"].ToString() == "POST") {
+                                    using(var client = new HttpClient()) {
+
+                                        var content = new StringContent(string.Format(request["body"].ToString(), DateTime.Now.ToString("yyyy-MM-dd HH:mm"), args["dorotitle"], ev.UserInput["tbNote"].ToString()));
+
+                                        var response = await client.PostAsync(request["body"].ToString(), content);
+
+                                        var responseString = await response.Content.ReadAsStringAsync();
+                                    }
+                                }
+
+                                if(request["method"].ToString() == "GET") {
+                                    using(var client = new HttpClient()) {
+
+                                        var url = string.Format(request["url"].ToString(), DateTime.Now.ToString("yyyy-MM-dd HH:mm"), args["dorotitle"], ev.UserInput["tbNote"].ToString());
+
+                                        var response = await client.GetAsync(url);
+
+                                        var responseString = await response.Content.ReadAsStringAsync();
+                                    }
                                 }
                             }
                         }
                     } catch {
-                        var dialog = new MessageDialog("There was an error in the config.json file.");
-                        await dialog.ShowAsync();
+                        //var dialog = new MessageDialog("There was an error in the config.json file." + ex.Message);
+                        //await dialog.ShowAsync();
                     }
                 }
             }

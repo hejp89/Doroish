@@ -8,6 +8,10 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.QueryStringDotNET;
 using System.Linq;
 using System.Diagnostics;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using Newtonsoft.Json.Linq;
+using Windows.System;
 
 namespace Doroish {
 
@@ -22,6 +26,51 @@ namespace Doroish {
             DoroList = new ObservableCollection<Doro>();
         }
 
+        private async void NotesButton_Click(object sender, RoutedEventArgs e) {
+            var configFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists);
+
+            var jsonConfigString = await FileIO.ReadTextAsync(configFile);
+            if(string.IsNullOrWhiteSpace(jsonConfigString)) {
+                jsonConfigString = "{}";
+            }
+
+            JObject jsonConfig = JObject.Parse(jsonConfigString);
+
+            StorageFolder docs;
+            if(jsonConfig["notes_folder"] == null) {
+                docs = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Doroish", CreationCollisionOption.OpenIfExists);
+            } else {
+                docs = await StorageFolder.GetFolderFromPathAsync(jsonConfig["notes_folder"].ToString());
+                if(docs == null) {
+                    docs = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Doroish", CreationCollisionOption.OpenIfExists);
+                }
+            }
+
+            await Launcher.LaunchFolderAsync(docs);
+        }
+
+        private async void SettingsButton_Click(object sender, RoutedEventArgs e) {
+            var configFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("config.json", CreationCollisionOption.OpenIfExists);
+
+            var jsonConfigString = await FileIO.ReadTextAsync(configFile);
+            if(string.IsNullOrWhiteSpace(jsonConfigString)) {
+                jsonConfigString = "{}";
+            }
+
+            JObject jsonConfig = JObject.Parse(jsonConfigString);
+
+
+            FolderPicker folderPicker = new FolderPicker();
+            folderPicker.FileTypeFilter.Add(".txt");
+            StorageFolder notesFolder = await folderPicker.PickSingleFolderAsync();
+            
+            if(notesFolder != null) {
+                jsonConfig["notes_folder"] = notesFolder.Path;
+
+                await FileIO.WriteTextAsync(configFile, jsonConfig.ToString());
+            }
+
+        }
 
         private async void AddButton_Click(object sender, RoutedEventArgs e) {
 
@@ -63,7 +112,7 @@ namespace Doroish {
             if(e.EventDescription == DoroTimerEvent.FINISHED) {
                 UITimer.Stop();
 
-                StatusBar.Text = "Finished";
+                StatusBarTextBlock.Text = "Finished";
                 
                 AddButton.IsEnabled = true;
                 RemoveButton.IsEnabled = true;
@@ -78,11 +127,11 @@ namespace Doroish {
             if (DoroTimer.IsBreak) {
                 var timeElapsed = DoroTimer.BreakElapsed;
 
-                StatusBar.Text = string.Format("{0}: {1:00}:{2:00} / {3:00}:{4:00}", "Break", timeElapsed.Minutes, timeElapsed.Seconds, CurrentDoro.BreakDuration.Minutes, CurrentDoro.BreakDuration.Seconds);
+                StatusBarTextBlock.Text = string.Format("{0}: {1:00}:{2:00} / {3:00}:{4:00}", "Break", timeElapsed.Minutes, timeElapsed.Seconds, CurrentDoro.BreakDuration.Minutes, CurrentDoro.BreakDuration.Seconds);
             } else {
                 var timeElapsed = DoroTimer.Elapsed;
 
-                StatusBar.Text = string.Format("{0}: {1:00}:{2:00} / {3:00}:{4:00}", CurrentDoro.Title, timeElapsed.Minutes, timeElapsed.Seconds, CurrentDoro.Duration.Minutes, CurrentDoro.Duration.Seconds);
+                StatusBarTextBlock.Text = string.Format("{0}: {1:00}:{2:00} / {3:00}:{4:00}", CurrentDoro.Title, timeElapsed.Minutes, timeElapsed.Seconds, CurrentDoro.Duration.Minutes, CurrentDoro.Duration.Seconds);
             }
         }
 
@@ -115,7 +164,7 @@ namespace Doroish {
                 DoroTimer.Stop();
                 UITimer.Stop();
 
-                StatusBar.Text = "Stopped";
+                StatusBarTextBlock.Text = "Stopped";
 
                 AddButton.IsEnabled = true;
                 RemoveButton.IsEnabled = true;

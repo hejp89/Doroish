@@ -14,9 +14,7 @@
             <ColumnDefinition Width="61*"/>
         </Grid.ColumnDefinitions>
 
-
-
-        <ListView x:Name="DoroListView" Margin="0,0,0,48" ItemsSource="{x:Bind DoroList}" CanReorderItems="True" CanDrag="True" AllowDrop="True" Grid.ColumnSpan="2">
+        <ListView x:Name="DoroListView" Margin="0,0,0,68" ItemsSource="{x:Bind DoroList}" CanReorderItems="True" CanDrag="True" AllowDrop="True" Grid.ColumnSpan="2">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -27,12 +25,14 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
+        <Border x:Name="StatusBarContainer" Background="#FFF59D" Height="40px" VerticalAlignment="Bottom" Margin="0,0,0,0" Grid.ColumnSpan="2" Padding="8,8,8,8">
+            <TextBlock x:Name="StatusBarTextBlock" TextWrapping="Wrap" Text="Not running" />
+        </Border>
         <TextBlock x:Name="EmptyStateTextBlock" Margin="0,48,0,0" TextWrapping="Wrap" Text="Use the &quot;+&quot; button to add a task" VerticalAlignment="Top" Grid.ColumnSpan="2" TextAlignment="Center"/>
     </Grid>
 
     <Page.BottomAppBar>
-        <CommandBar Height="48">
+        <CommandBar Height="60">
             <CommandBar.Resources>
                 <ControlTemplate x:Key="CommandBarControlTemplate1" TargetType="CommandBar">
                     <Grid x:Name="LayoutRoot" Background="{TemplateBinding Background}">
@@ -94,16 +94,18 @@
                 <StaticResource ResourceKey="CommandBarControlTemplate1"/>
             </CommandBar.Template>
             <CommandBar.Content>
-                <Border BorderBrush="{x:Null}" Height="48">
-                    <TextBlock x:Name="StatusBar" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Margin="10,0,0,0"/>
-                </Border>
+                <Grid>
+                <AppBarButton x:Name="NotesButton" Icon="Page2" Label="Notes" Click="NotesButton_Click" Margin="68,0,0,0"/>
+                <AppBarButton x:Name="SettingsButton" Icon="Setting" Label="Settings" Click="SettingsButton_Click"/>
+                </Grid>
             </CommandBar.Content>
 
-            <AppBarButton x:Name="RemoveButton" Icon="Delete" Label="Remove Doro" Click="RemoveButton_Click"/>
-            <AppBarButton x:Name="AddButton" Icon="Add" Label="Add Doro" Click="AddButton_Click"/>
-            <AppBarSeparator />
-            <AppBarButton x:Name="StartButton" Icon="Play" Label="Start Doro Session" Click="StartButton_Click"/>
-            <AppBarButton x:Name="SkipButton" Icon="Next" Label="Skip" Click="SkipButton_Click" IsEnabled="False"/>
+            
+            <AppBarButton x:Name="RemoveButton" Icon="Delete" Label="Remove Doro" Click="RemoveButton_Click" Margin="0,6,0,0"/>
+            <AppBarButton x:Name="AddButton" Icon="Add" Label="Add Doro" Click="AddButton_Click" Margin="0,6,0,0"/>
+            <AppBarSeparator Margin="0,6,0,0"/>
+            <AppBarButton x:Name="StartButton" Icon="Play" Label="Start Doro Session" Click="StartButton_Click" Margin="0,6,0,0"/>
+            <AppBarButton x:Name="SkipButton" Icon="Next" Label="Skip" Click="SkipButton_Click" IsEnabled="False" Margin="0,6,0,0"/>
         </CommandBar>
     </Page.BottomAppBar>
 
