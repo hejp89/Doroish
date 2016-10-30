@@ -12,6 +12,9 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Newtonsoft.Json.Linq;
 using Windows.System;
+using Windows.Storage.AccessCache;
+using Windows.UI.ViewManagement;
+using Windows.Foundation;
 
 namespace Doroish {
 
@@ -21,9 +24,12 @@ namespace Doroish {
         private DispatcherTimer UITimer = new DispatcherTimer();
         private Random Rand = new Random();
 
-        public  MainPage() {
+        public MainPage() {
             InitializeComponent();
             DoroList = new ObservableCollection<Doro>();
+
+            ApplicationView.PreferredLaunchViewSize = new Size(480, 950);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
         }
 
         private async void NotesButton_Click(object sender, RoutedEventArgs e) {
@@ -40,7 +46,9 @@ namespace Doroish {
             if(jsonConfig["notes_folder"] == null) {
                 docs = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Doroish", CreationCollisionOption.OpenIfExists);
             } else {
-                docs = await StorageFolder.GetFolderFromPathAsync(jsonConfig["notes_folder"].ToString());
+                var d = jsonConfig["notes_folder"].ToString();
+                System.Diagnostics.Debug.WriteLine(d);
+                docs = await StorageFolder.GetFolderFromPathAsync(jsonConfig["notes_folder"].ToString() + "\\");
                 if(docs == null) {
                     docs = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Doroish", CreationCollisionOption.OpenIfExists);
                 }
@@ -65,6 +73,7 @@ namespace Doroish {
             StorageFolder notesFolder = await folderPicker.PickSingleFolderAsync();
             
             if(notesFolder != null) {
+                StorageApplicationPermissions.FutureAccessList.Add(notesFolder);
                 jsonConfig["notes_folder"] = notesFolder.Path;
 
                 await FileIO.WriteTextAsync(configFile, jsonConfig.ToString());

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="f96455ea-0567-42a8-8382-b77e63cb8e7c" Publisher="CN=howard" Version="1.0.3.0" />
+  <Identity Name="65370HowardPaget.Doroish" Publisher="CN=044F426C-EC2A-4236-8CBE-6905266E0EC0" Version="1.1.4.0" />
   <mp:PhoneIdentity PhoneProductId="f96455ea-0567-42a8-8382-b77e63cb8e7c" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Doroish</DisplayName>
-    <PublisherDisplayName>howard</PublisherDisplayName>
+    <PublisherDisplayName>Howard Paget</PublisherDisplayName>
     <Logo>Assets\DoroLogoSquare-50x50.png</Logo>
   </Properties>
   <Dependencies>
@@ -27,15 +27,6 @@
         <uap:SplashScreen Image="Assets\DoroLogoWide-620x300.png" BackgroundColor="#ffffff" />
       </uap:VisualElements>
       <Extensions>
-        <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="doroish">
-            <uap:DisplayName>Doroish</uap:DisplayName>
-            <uap:SupportedFileTypes>
-              <uap:FileType>.json</uap:FileType>
-              <uap:FileType>.txt</uap:FileType>
-            </uap:SupportedFileTypes>
-          </uap:FileTypeAssociation>
-        </uap:Extension>
         <Extension Category="windows.backgroundTasks" EntryPoint="BackgroundNotificationComponent.ToastNotificationBackgroundTask">
           <BackgroundTasks>
             <Task Type="systemEvent" />
@@ -47,6 +38,5 @@
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
-    <uap:Capability Name="documentsLibrary" />
   </Capabilities>
 </Package>
