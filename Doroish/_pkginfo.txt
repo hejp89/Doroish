@@ -1,1 +1,1 @@
-C:\Users\howard\documents\visual studio 2015\Projects\Doroish\Doroish\AppPackages\Doroish_1.1.4.0\Doroish_1.1.4.0_x86_x64_arm.appxbundle
+C:\Users\howard\documents\visual studio 2015\Projects\Doroish\Doroish\AppPackages\Doroish_1.1.5.0\Doroish_1.1.5.0_x86_x64_arm.appxbundle

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="65370HowardPaget.Doroish" Publisher="CN=044F426C-EC2A-4236-8CBE-6905266E0EC0" Version="1.1.4.0" />
+  <Identity Name="65370HowardPaget.Doroish" Publisher="CN=044F426C-EC2A-4236-8CBE-6905266E0EC0" Version="1.1.5.0" />
   <mp:PhoneIdentity PhoneProductId="f96455ea-0567-42a8-8382-b77e63cb8e7c" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Doroish</DisplayName>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Doroish.App">
-      <uap:VisualElements DisplayName="Doroish" Square150x150Logo="Assets\DoroLogoSquare-150x150.png" Square44x44Logo="Assets\DoroLogoSquare-44x44.png" Description="Doroish" BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="Doroish" Square150x150Logo="Assets\DoroLogoSquare-150x150.png" Square44x44Logo="Assets\DoroLogoSquare-44x44.png" Description="Doroish" BackgroundColor="#ffffff">
         <uap:LockScreen Notification="badge" BadgeLogo="Assets\DoroLogoSquare-24x24.png" />
         <uap:DefaultTile Square310x310Logo="Assets\DoroLogoSquare-310x310.png" ShortName="Doro" Square71x71Logo="Assets\DoroLogoSquare-71x71.png" Wide310x150Logo="Assets\DoroLogoWide-310x150.png">
           <uap:ShowNameOnTiles>
